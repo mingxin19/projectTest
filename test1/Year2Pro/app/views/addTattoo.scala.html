@@ -1,0 +1,47 @@
+@(tattooForm: Form[models.gallery.Tattoo], user: models.users.User)
+@import helper._
+
+@main("Add Tattoo",user){
+    <p class="lead">Add a new Tattoo</p>
+
+    @form(action=routes.GalleryController.addTattooSubmit(), 'class -> "form-horizontal", 'role -> "form",
+    'method -> "POST", 'enctype -> "multipart/form-data"){
+        @CSRF.formField
+    
+        @form(action=routes.GalleryController.addTattooSubmit(), 'class -> "form-horizontal", 'role -> "form",
+        'method -> "POST", 'enctype -> "multipart/form-data"){
+        @CSRF.formField
+        
+        <label>Image Upload</label>
+        <input class="btn-sm btn-default" type="file" name="upload"> 
+        
+        
+        @inputText(tattooForm("name"), '_label -> "Name", 'class -> "form-control")
+        @inputText(tattooForm("name"), '_label -> "", 'hidden -> "hidden")
+
+        @select(
+            tattooForm("style.id"),
+                options(gallery.Style.options),
+                '_label -> "Style", '_default -> "-- Choose a Style --", 
+                '_showConstraints -> false, 'class -> "form-control"
+            )
+
+            
+ 
+            
+        
+
+    
+        
+    
+
+
+        <div class="actions">
+            <input type="submit" value="Add Tattoo" class="btn btn-primary">
+            <a href="@routes.GalleryController.galleries(0)">
+                <button type="button" class="btn btn-warning">Cancel</button>
+            </a>
+        </div>
+    }
+}
+}

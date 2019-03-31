@@ -1,0 +1,65 @@
+@(pagename: String, user: models.users.User)(content:Html)
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" media="screen" href='@routes.Assets.versioned("assets/styles.css")' />
+  <script src="@routes.Assets.versioned("assets/functions.js")"></script>
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+ <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+	</head>
+	<body>
+	<header>
+	</header>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Tattoo Saloon</a>
+      </div>
+      <ul class="nav navbar-nav">
+          <li @if(pagename == "Gallery"){class="active"}><a href="@routes.GalleryController.galleries(0)">Galleries</a></li>
+          @if((user !=null)&&("customer".equals(user.getRole()))){
+            <li @if(pagename == "Appointment"){class="active"}><a href="@routes.AppointmentController.custApp()">Book Appointment</a></li>
+          }else{
+            <li @if(pagename == "Appointment"){class="active"}><a href="@routes.AppointmentController.appointment()">Book Appointment</a></li>
+          }
+        </ul>
+      <ul class="nav navbar-nav navbar-right">
+          @if((user !=null)&&("customer".equals(user.getRole()))){
+            <li @if(pagename == "Profile"){class="active"}><a href="@routes.HomeController.customerProfile()"><span class="glyphicon glyphicon-user"></span> @user.getName()</a></li>
+          } 
+          @if((user !=null)&&("artist".equals(user.getRole()))){
+            <li @if(pagename == "Profile"){class="active"}><a href="@routes.HomeController.artistProfile()"><span class="glyphicon glyphicon-user"></span> @user.getName()</a></li>
+          } 
+          @if((user !=null)&&("admin".equals(user.getRole()))){
+            <li @if(pagename == "Profile"){class="active"}><a href="@routes.HomeController.adminProfile()"><span class="glyphicon glyphicon-user"></span> @user.getName()</a></li>
+          } 
+          @if(user != null){
+            <li @if(pagename == "Logout"){class="active"}><a href="@routes.LoginController.logout()">Log Out</a></li>
+          }else{
+            <li @if(pagename == "Register"){class="active"}><a href="@routes.LoginController.registerUser()">Sign Up</a></li>
+            <li @if(pagename == "Login"){class="active"}><a href="@routes.LoginController.login()">Login</a></li>
+          }
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+<div class="body_layout">
+
+	<main>
+    @content
+    </main>
+	</div>
+  </body>
+  </html>

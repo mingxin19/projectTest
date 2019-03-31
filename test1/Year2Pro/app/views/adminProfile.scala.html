@@ -1,0 +1,147 @@
+@(customers: List[models.users.Customer], artists: List[models.users.Artist], appointments: List[models.users.Appointment], user: models.users.User)
+@main("User", user){
+    <div class="row">
+        <div class="col-sm-3">
+		
+        </div>
+        
+        <div class="col-sm-9">
+            <h3>Name: @user.getName()</h3>
+            <h3>Email: @user.getEmail()</h3>
+		</div>
+    </div>
+     
+    
+        @if(flash.containsKey("success")){
+            <div class="alert alert-success">
+                @flash.get("success")
+            </div>
+        }
+        <div class="row">
+                <div class="col-sm-12">
+                <h4>Customers</h4>
+                <table class="table table-bordered table-hover table-condensed">
+                    <thead>
+                    <!-- The header row-->
+                    <tr>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Name</th>
+                        
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for(c<-customers){
+                        <tr>
+                        <td>@c.getEmail</td>
+                        <td>@c.getRole</td>
+                        <td>@c.getName</td>
+        
+                        
+                            <td>
+                                <a href="@routes.HomeController.updateCustomer(c.getEmail)" class="button-xs btn-danger">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            </td>
+                        
+                            <td>
+                                <a href="@routes.HomeController.deleteUser(c.getEmail)" class="button-xs btn-danger" onclick="return confirmDel();">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            </td>
+                        }
+                        </tr>
+                    
+                    </tbody>
+                </table>
+
+                <p>
+                        <a href="@routes.HomeController.addCustomer()">
+                            <button class="btn btn-primary">Add a new Customer</button>
+                        </a>
+                    </p>
+
+                <div class="row">
+                        <div class="col-sm-12">
+                        <h4>Artists</h4>
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                            <!-- The header row-->
+                            <tr>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Name</th>
+                                
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @for(art<-artists){
+                                <tr>
+                                <td>@art.getEmail</td>
+                                <td>@art.getRole</td>
+                                <td>@art.getName</td>
+                
+                                
+                                    <td>
+                                        <a href="@routes.HomeController.updateArtist(art.getEmail)" class="button-xs btn-danger">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </a>
+                                    </td>
+                                
+                                    <td>
+                                        <a href="@routes.HomeController.deleteUser(art.getEmail)" class="button-xs btn-danger" onclick="return confirmDel();">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </a>
+                                    </td>
+                                }
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                
+                <p>
+                        <a href="@routes.HomeController.addArtist()">
+                            <button class="btn btn-primary">Add a new Artist</button>
+                        </a>
+                    </p>
+                
+            </div>
+            </div>
+        
+        <div class="row">
+            <div class="col-sm-12">
+            <h2>Appointments</h2>
+    
+            <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Artist</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for(a<-appointments){
+                    <tr>
+                    <td>@a.getCustomer().getEmail</td>
+                    <td>@a.getDate</td>
+                    <td>@a.getArtist().getName</td>
+                    
+                        
+                    
+                        <td>
+                            <a href="@routes.AppointmentController.deleteAppointment(a.getId)" class="button-xs btn-danger" onclick="return confirmDel();">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    }
+                    </tr>
+                
+                </tbody>
+            </table>
+        </div>
+            
+        </div>
+    
+    
+}

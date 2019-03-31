@@ -1,0 +1,86 @@
+Tests to create:
+
+- log in
+	+go to login page
+	+Enter email
+	+enter password
+	+Login
+	+confirm user was logged in
+
+- log out
+	+select log out
+	+ confirm user was logged out
+
+- navgation X
+	+go to home page
+		+verify
+	+go to gallery
+		+verify
+	+go to appointment page
+		+verify
+	+go to sign up page
+		+verify
+	+go to login page
+		+verify
+	+go to admin(user page)
+		+verify
+	+go to admin(appointments page)
+		+verify
+	+go to user profile page
+		+verify
+	+go back to home page
+		+verify
+- make appointment
+	+go to appointment page
+	+enter name
+	+Enter email
+	+enter phone number
+	+enter date & time
+	+enter description
+	+enter size
+	+enter placement
+	+enter colour
+	+submit
+	+check for confirmation message
+
+- sign up
+	+go to sign-up page
+	+Enter email
+	+enter name
+	+enter password
+	+confirm password
+	+enter phone number
+	+submit
+	+check for confirmation message
+
+- edit user
+	+go to admin(users) page
+	+select a user to edit
+	+change details(name,email,password,phone etc)
+	+save edits
+	+confirm changes
+- delete user
+	+go to admin(users) page
+	+select a user to delete
+	+delete user
+	+confirm user was deleted
+
+- delete appointment
+	+go to admin(appointments) page
+	+select appointment to delete
+	+delete apppointment
+	+confirm appointment was deleted
+
+- upload profile picture
+	+go to profile page
+	+select add photo
+	+upload photo
+	+ensure photo was added
+
+- test restrictions (admin + user privledges)
+	+navigate website as non-user
+	+ensure user cannot access admin pages or user profile
+	+navigate website as customer
+	+ensure user can access their profile page but not admin pages
+	+navigate website as Admin
+	+ensure admin can access admin pages and profile page

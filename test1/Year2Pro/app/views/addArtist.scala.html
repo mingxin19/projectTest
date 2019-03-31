@@ -1,0 +1,27 @@
+@(artForm: Form[models.users.Artist], user: models.users.User)
+@import helper._
+
+@main("Add Artist",user){
+    <p class="lead">Add a new artist</p>
+
+    
+    @form(action=routes.HomeController.addArtistSubmit(), 'class -> "form-horizontal", 'role -> "form"){
+        @CSRF.formField
+
+        @inputText(artForm("email"), '_label -> "Email", 'class -> "form-control")
+        @inputText(artForm("role").copy(value=Some("artist")), '_label -> "",'hidden -> "hidden")
+        @inputText(artForm("name"), '_label -> "Name", 'class -> "form-control")
+        @inputText(artForm("password"), '_label -> "Password", 'class -> "form-control")
+        
+        
+
+        
+
+        <div class="actions">
+            <input type="submit" value="Add/Update Artist" class="btn btn-primary">
+            <a href="@routes.HomeController.adminProfile()">
+                <button type="button" class="btn btn-warning">Cancel</button>
+            </a>
+        </div>
+    }
+}

@@ -1,0 +1,49 @@
+@(appForm: Form[models.users.Appointment],user: models.users.User)
+@import helper._
+
+@main("Appointment",user){
+    <p class="lead">Book Appointment</p>
+
+    
+    @if(flash.containsKey("error")){
+        <div class="alert alert-error">
+            @flash.get("error")
+        </div>
+    }
+
+    
+    
+ 
+    @form(action=routes.AppointmentController.custAppSubmit(), 'class -> "form-horizontal", 'role -> "form",
+    'mehtod -> "POST", 'enctype -> "multipart/form-data") {
+        @* CSRF attack prevention *@
+        @* This token, sent by the controller, will be used to authenticate the form submission *@
+        @CSRF.formField
+
+             
+            @inputDate(appForm("date"), args = 'size -> 10, '_label -> "Date (You Preferred)", 'class -> "form-control")
+             
+            @inputText(appForm("time"), '_label -> "Time (You Preferred)", 'class -> "form-control")
+            @select(
+                appForm("artist.email"),
+                    options(users.Artist.options),
+                    '_label -> "Artist", '_default -> "-- Choose a Artist --", 
+                    '_showConstraints -> false, 'class -> "form-control"
+                )
+            @inputText(appForm("description"), '_label -> "Description of the Tattoo", 'class -> "form-control")
+            @inputText(appForm("size"), '_label -> "Size of the Tattoo", 'class -> "form-control")
+            @inputText(appForm("placement"), '_label -> "Place you want your Tattoo on", 'class -> "form-control")
+            @inputText(appForm("colour"), '_label -> "Colour of the Tattoo", 'class -> "form-control")
+            
+            <label>Image Upload</label>
+            <input class="btn-sm btn-default" type = "file" name ="upload">
+            <p></p>
+            
+            <div class="actions">
+                <input type="submit" value="Confirm Appointment" class="btn btn-primary">
+                <a href="@routes.AppointmentController.custApp()">
+                    <button type="button" class="btn btn-warning">Cancel</button>
+                </a>
+            </div>
+    } 
+}

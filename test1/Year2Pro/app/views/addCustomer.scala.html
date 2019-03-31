@@ -1,0 +1,27 @@
+@(custForm: Form[models.users.Customer], user: models.users.User)
+@import helper._
+
+@main("Add Customer",user){
+    <p class="lead">Add a new Customer</p>
+
+    
+    @form(action=routes.HomeController.addCustomerSubmit(), 'class -> "form-horizontal", 'role -> "form"){
+        @CSRF.formField
+
+        @inputText(custForm("email"), '_label -> "Email", 'class -> "form-control")
+        @inputText(custForm("role").copy(value=Some("customer")), '_label -> "",'hidden -> "hidden")
+        @inputText(custForm("name"), '_label -> "Name", 'class -> "form-control")
+        @inputText(custForm("password"), '_label -> "Password", 'class -> "form-control")
+        
+        
+
+        
+
+        <div class="actions">
+            <input type="submit" value="Add/Update Customer" class="btn btn-primary">
+            <a href="@routes.HomeController.adminProfile()">
+                <button type="button" class="btn btn-warning">Cancel</button>
+            </a>
+        </div>
+    }
+}

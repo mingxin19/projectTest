@@ -1,0 +1,79 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+ 
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index
+GET     /index                      controllers.HomeController.index
+GET     /galleries                  controllers.GalleryController.galleries(style:Long?=0L)
+GET     /addTattoo                  controllers.GalleryController.addTattoo
+POST    /addTattooSubmit            controllers.GalleryController.addTattooSubmit
+GET     /deleteTattoo/:id           controllers.GalleryController.deleteTattoo(id: Long)
+
+
+GET     /customerProfile                controllers.HomeController.customerProfile
+GET     /ArtistProfile                controllers.HomeController.artistProfile
+GET     /adminProfile                controllers.HomeController.adminProfile
+
+
+
+
+# An example controller showing how to use dependency injection
+GET     /count                      controllers.CountController.count
+# An example controller showing how to write asynchronous code
+GET     /message                    controllers.AsyncController.message
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+
+
+
+
+GET     /login                      controllers.LoginController.login
+
+GET     /loginSubmit                controllers.LoginController.loginSubmit
+
+GET     /logout                     controllers.LoginController.logout
+
+
+
+
+
+GET     /addCustomer                    controllers.HomeController.addCustomer
+
+POST    /addCustomerSubmit              controllers.HomeController.addCustomerSubmit
+
+GET     /addArtist                   controllers.HomeController.addArtist
+
+POST    /addArtistSubmit              controllers.HomeController.addArtistSubmit
+
+GET     /deleteUser/:id             controllers.HomeController.deleteUser(id: String)
+
+GET     /updateCustomer/:id             controllers.HomeController.updateCustomer(id: String)
+
+GET     /updateArtist/:id             controllers.HomeController.updateArtist(id: String)
+
+
+
+
+
+GET     /registerUser               controllers.LoginController.registerUser
+
+POST    /registerUserSubmit         controllers.LoginController.registerUserSubmit
+
+
+
+
+
+GET     /custApp                    controllers.AppointmentController.custApp
+
+POST    /custAppSubmit              controllers.AppointmentController.custAppSubmit
+
+GET     /appointment                controllers.AppointmentController.appointment
+
+POST    /appointmentSubmit          controllers.AppointmentController.appointmentSubmit
+
+GET     /deleteAppointment/:id             controllers.AppointmentController.deleteAppointment(id: Int)
+
+GET     /updateAppointment/:id             controllers.AppointmentController.updateAppointment(id: Int)
