@@ -26,6 +26,7 @@ libraryDependencies ++= Seq(
   cache,
   "org.mindrot" % "jbcrypt" % "0.3m"
 )
+libraryDependencies += "com.stripe" % "stripe-java" % "8.1.0"
 
 // Testing libraries for dealing with CompletionStage...
 libraryDependencies += "org.assertj" % "assertj-core" % "3.11.1" % Test

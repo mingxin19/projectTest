@@ -1,11 +1,12 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
- 
+  
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 GET     /index                      controllers.HomeController.index
 GET     /galleries                  controllers.GalleryController.galleries(style:Long?=0L)
+GET     /artistGalleries            controllers.GalleryController.artistGalleries(email: String)
 GET     /addTattoo                  controllers.GalleryController.addTattoo
 POST    /addTattooSubmit            controllers.GalleryController.addTattooSubmit
 GET     /deleteTattoo/:id           controllers.GalleryController.deleteTattoo(id: Long)
@@ -76,4 +77,6 @@ POST    /appointmentSubmit          controllers.AppointmentController.appointmen
 
 GET     /deleteAppointment/:id             controllers.AppointmentController.deleteAppointment(id: Int)
 
-GET     /updateAppointment/:id             controllers.AppointmentController.updateAppointment(id: Int)
+# GET     /updateAppointment/:id             controllers.AppointmentController.updateAppointment(id: Int)
+
+GET     /checkout                   controllers.CheckoutController.checkout

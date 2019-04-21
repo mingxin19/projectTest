@@ -45,12 +45,24 @@ public class AppointmentController extends Controller{
             flash("error", "Bad Request");
             return badRequest(custApp.render(appForm,User.getUserById(session().get("email"))));
         }else{
+            Customer c = Customer.getCustomerById(session().get("email"));
+            if(c.getAppointment()!=null){
+                flash("error", "Appointment for your email address is booked already.");
+                
+            }else{
+                Appointment newApp = appForm.get();
+                
+                newApp.setCustomer(c);
+                c.setAppointment(newApp);
+                newApp.save();
+                c.update();
             
-            Appointment newApp = appForm.get();
-            Customer newCustomer = Customer.getCustomerById(session().get("email"));
-            newApp.setCustomer(newCustomer);
-            newApp.save();
-            flash("success", "Appointment for " + newApp.getCustomer().getName() + " is booked.");
+                MultipartFormData<File> data = request().body().asMultipartFormData();
+                FilePart<File> image = data.getFile("upload");
+                String saveImageMessage = saveFile(newApp.getId(), image);
+
+                flash("success", "Appointment for " + newApp.getCustomer().getName() + " is booked.");
+            }
             return redirect(controllers.routes.AppointmentController.custApp());
     
             
@@ -74,19 +86,22 @@ public class AppointmentController extends Controller{
         if(appForm.hasErrors()||custForm.hasErrors()){
             return badRequest(appointment.render(custForm,appForm,User.getUserById(session().get("email"))));
         }else{
-            
-            Appointment newApp = appForm.get();
             Customer tempCust = custForm.get();
-            tempCust.setPassword(tempCust.getPassword());
-            newApp.setCustomer(tempCust);
-            tempCust.save();
-            newApp.save();
+            if(User.getUserById(tempCust.getEmail()) != (null)){
+                flash("error", "This email are registered, login to book appointment.");
+            }else{
+                Appointment newApp = appForm.get();
+                tempCust.setPassword(tempCust.getPassword());
+                newApp.setCustomer(tempCust);
+                tempCust.save();
+                newApp.save();
 
-            MultipartFormData<File> data = request().body().asMultipartFormData();
-            FilePart<File> image = data.getFile("upload");
-            String saveImageMessage = saveFile(newApp.getId(), image);
+                MultipartFormData<File> data = request().body().asMultipartFormData();
+                FilePart<File> image = data.getFile("upload");
+                String saveImageMessage = saveFile(newApp.getId(), image);
             
-            flash("success", "Appointment for " + newApp.getCustomer().getName() + " is booked. " + saveImageMessage + " uploaded.");
+                flash("success", "Appointment for " + newApp.getCustomer().getName() + " is booked. " + saveImageMessage + " uploaded.");
+            }
             return redirect(controllers.routes.AppointmentController.appointment());
     
             
@@ -114,24 +129,24 @@ public class AppointmentController extends Controller{
 
 
 
-    @Security.Authenticated(Secured.class)
-    public Result updateAppointment(int id){
-        Appointment app;
-        Customer cust;
-        Form<Appointment> appForm;
-        Form<Customer> custForm;
-        try{
-            app = Appointment.getAppointmentById(id);
-            cust = app.getCustomer();
-            app.update();
-            cust.update();
-            appForm = formFactory.form(Appointment.class).fill(app);
-            custForm = formFactory.form(Customer.class).fill(cust);
-        }catch(Exception e){
-            return badRequest("error");
-        }
-        return ok(appointment.render(custForm,appForm,User.getUserById(session().get("email"))));
-    }
+    // @Security.Authenticated(Secured.class)
+    // public Result updateAppointment(int id){
+    //     Appointment app;
+    //     Customer cust;
+    //     Form<Appointment> appForm;
+    //     Form<Customer> custForm;
+    //     try{
+    //         app = Appointment.getAppointmentById(id);
+    //         cust = app.getCustomer();
+    //         app.update();
+    //         cust.update();
+    //         appForm = formFactory.form(Appointment.class).fill(app);
+    //         custForm = formFactory.form(Customer.class).fill(cust);
+    //     }catch(Exception e){
+    //         return badRequest("error");
+    //     }
+    //     return ok(appointment.render(custForm,appForm,User.getUserById(session().get("email"))));
+    // }
 
 
 

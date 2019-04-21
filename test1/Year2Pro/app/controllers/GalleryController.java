@@ -34,7 +34,7 @@ public class GalleryController extends Controller{
         this.formFactory = f;
         this.e = env;
     }
-
+ 
     public Result galleries(Long style){
         List<Tattoo> tattooList = null;
         List<Style> styleList = Style.findAll();
@@ -46,6 +46,19 @@ public class GalleryController extends Controller{
         }
 
         return ok(galleries.render(tattooList, styleList, User.getUserById(session().get("email")),e));
+    }
+
+    public Result artistGalleries(String email){
+        List<Tattoo> tattooList = new ArrayList<Tattoo>();
+        List<Artist> artistList = Artist.findAll();
+
+        if(email.equals("art")){
+            tattooList = Tattoo.findAll();
+        } else {
+            tattooList = Artist.getArtistById(email).getTattoos();
+        }
+
+        return ok(artistGalleries.render(tattooList, artistList, User.getUserById(session().get("email")),e));
     }
     @Security.Authenticated(Secured.class)
     public Result deleteTattoo(Long id){
@@ -83,13 +96,13 @@ public class GalleryController extends Controller{
        
             FilePart<File> image = data.getFile("upload");
     
-            String saveTattooMessage = saveFileT(newTattoo.getName(), image);
+            String saveTattooMessage = saveFileT(newTattoo.getId(), image, newTattoo.getArtist().getEmail());
             flash("success", "Tattoo " + newTattoo.getName() + " was added/updated.");
             return redirect(controllers.routes.GalleryController.galleries(0));    
         }
     }
 
-    public String saveFileT(String id, FilePart<File> uploaded) {
+    public String saveFileT(Long id, FilePart<File> uploaded, String artEmail) {
         
         if (uploaded != null) {
             
@@ -111,13 +124,13 @@ public class GalleryController extends Controller{
                     dir.mkdirs();
                 }
                 // 3) Actually save the file.
-                File newFile = new File("public/images/tattooImages/", id + "." + extension);
+                File newFile = new File("public/images/tattooImages/", id + artEmail + "." + extension);
                 if (file.renameTo(newFile)) {
                     try {
                         BufferedImage img = ImageIO.read(newFile); 
                         BufferedImage scaledImg = Scalr.resize(img, 300);
                         
-                        if (ImageIO.write(scaledImg, extension, new File("public/images/tattooImages/", id + "display.jpg"))) {
+                        if (ImageIO.write(scaledImg, extension, new File("public/images/tattooImages/", id + artEmail + "display.jpg"))) {
                             return "/ file uploaded and Profile created.";
                         } else {
                             return "/ file uploaded but profile creation failed.";

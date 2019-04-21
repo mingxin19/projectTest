@@ -4,6 +4,11 @@
 @main("Appointment",user){
     <p class="lead">Book Appointment</p>
 
+    @if(flash.containsKey("success")){
+        <div class="alert alert-success">
+            @flash.get("success")
+        </div>
+    }
     
     @if(flash.containsKey("error")){
         <div class="alert alert-error">

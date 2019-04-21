@@ -29,7 +29,7 @@ public class Appointment extends Model{
     private Date date;
 
     @Constraints.Required
-    private String time;
+    private Time time;
     
     @Constraints.Required
     private String description;
@@ -47,7 +47,7 @@ public class Appointment extends Model{
 
     }
 
-    public Appointment(Date date, String time, Customer customer, Artist artist, String desc, String size, String place, String colour){
+    public Appointment(Date date, Time time, Customer customer, Artist artist, String desc, String size, String place, String colour){
         this.date = date;
         this.time = time;
         this.customer = customer;
@@ -57,7 +57,7 @@ public class Appointment extends Model{
         this.placement = place;
         this.colour = colour;
     }
-    public Appointment(Date date, String time, Artist artist, String desc, String size, String place, String colour){
+    public Appointment(Date date, Time time, Artist artist, String desc, String size, String place, String colour){
         this.date = date;
         this.time = time;
         this.artist = artist;
@@ -84,11 +84,12 @@ public class Appointment extends Model{
     public void setDate(Date date){
         this.date = date;
     }
+    
 
-    public String getTime(){
+    public Time getTime(){
         return time;
     }
-    public void setTime(String time){
+    public void setTime(Time time){
         this.time = time;
     }
 
@@ -147,6 +148,24 @@ public class Appointment extends Model{
         }
     }
 
+    @Override
+    public String toString(){
+        String s;
+        s = String.format("%d ",apmNumber) + String.format(" %s ", customer.getEmail()) 
+        + String.format(" %s ", artist.getName()) + String.format(" %1$td %1$tB %1$tY ", date) 
+        + String.format(" %s ", time) + String.format(" %s ", description)   
+        + String.format(" %s ", size)+String.format(" %s ", colour);
+
+        return s;
+    }
+
+    // public static Map<String,String> options(){
+    //     LinkedHashMap<String,String> options = new LinkedHashMap<>();
+    //     for (Appointment app: Appointment.findAll()) {
+    //         options.put(app.getTimeType().getTime(),app.getTimeType().getType());
+    //     }
+    //     return options;
+    // }
     
 
 }

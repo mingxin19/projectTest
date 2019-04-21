@@ -26,7 +26,7 @@
     
  
     @form(action=routes.AppointmentController.appointmentSubmit(), 'class -> "form-horizontal", 'role -> "form",
-            'mehtod -> "POST", 'enctype -> "multipart/form-data") {
+            'method -> "POST", 'enctype -> "multipart/form-data") {
         @* CSRF attack prevention *@
         @* This token, sent by the controller, will be used to authenticate the form submission *@
         @CSRF.formField
@@ -39,7 +39,11 @@
             @inputText(custForm("password").copy(value=Some("FindAWayToGenerateARandonNumber")), '_label -> "", 'hidden -> "hidden",'_showConstraints -> false)
             @inputDate(appForm("date"), args = 'size -> 10, '_label -> "Date (You Preferred)", 'class -> "form-control")
              
-            @inputText(appForm("time"), '_label -> "Time (You Preferred)", 'class -> "form-control")
+            @select(
+                appForm("time.getType"),
+                    options(users.Time.options),
+                    '_label -> "Time", '_default -> "-- Choose a Time  --"
+                )
             @select(
                 appForm("artist.email"),
                     options(users.Artist.options),

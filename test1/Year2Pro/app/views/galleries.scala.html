@@ -1,4 +1,4 @@
-@(tattoos: List[models.gallery.Tattoo], styles: List[models.gallery.Style], user: models.users.User,env: play.api.Environment)
+@(tattoos: List[models.gallery.Tattoo], styles: List[models.gallery.Style], user: models.users.User, env: play.api.Environment)
 @main("Gallery", user){
     <h1>Gallery</h1>
     <div class="row">
@@ -32,7 +32,7 @@
                                                             
                                                         </a>
                                                         <h5>@t.getName</h5>
-                                                        @if((user != null) &&("admin".equals(user.getRole()))){
+                                                        @if((user != null) &&("artist".equals(user.getRole()))){
                                                             <a href="@routes.GalleryController.deleteTattoo(t.getId)" class="button-xs btn-danger"
                                                             onclick="return confirmDel();">
                                                             <span class="glyphicon glyphicon-trash"></span>

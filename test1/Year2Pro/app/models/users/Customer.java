@@ -33,7 +33,12 @@ public class Customer extends User{
         this.phoneNumber=phoneNumber;
     }
 
-    
+    public Appointment getAppointment(){
+        return appointment;
+    }
+    public void setAppointment(Appointment appointment){
+        this.appointment=appointment;
+    }
 
     public static Finder<Long, Customer> find = new Finder<Long,Customer>(Customer.class);
 

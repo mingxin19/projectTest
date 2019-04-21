@@ -8,11 +8,12 @@ create table appointment (
   customer_email                varchar(255),
   artist_email                  varchar(255),
   date                          date,
-  time                          varchar(255),
+  time                          integer,
   description                   varchar(255),
   size                          varchar(255),
   placement                     varchar(255),
   colour                        varchar(255),
+  constraint ck_appointment_time check ( time in (0,1,2,3,4)),
   constraint uq_appointment_customer_email unique (customer_email),
   constraint pk_appointment primary key (apm_number)
 );

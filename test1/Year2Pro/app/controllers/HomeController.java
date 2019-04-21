@@ -19,14 +19,17 @@ public class HomeController extends Controller {
 
     
     private FormFactory formFactory;
+    private Environment e;
 
     @Inject
-    public HomeController(FormFactory f){
+    public HomeController(FormFactory f,Environment env){
         this.formFactory = f;
+        this.e = env;
     }
 
     public Result index() {
-        return ok(index.render(User.getUserById(session().get("email"))));
+        List<Tattoo> tattooList = Tattoo.findForHome();
+        return ok(index.render(User.getUserById(session().get("email")), tattooList, e));
     }
 
 /*    public Result onsale(Long cat){
@@ -73,7 +76,7 @@ public class HomeController extends Controller {
         artList = Artist.findAll();
         appList= Appointment.findAll();
 
-        return ok(adminProfile.render(custList, artList, appList, User.getUserById(session().get("email"))));
+        return ok(adminProfile.render(custList, artList, appList, (Admin) User.getUserById(session().get("email"))));
     }
 
 /*    @Security.Authenticated(Secured.class)

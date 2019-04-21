@@ -77,6 +77,16 @@ public class Tattoo extends Model {
         return Tattoo.find.all();
     }
 
+    public static final List<Tattoo> findForHome(){
+        List<Tattoo> tattooList = new ArrayList<Tattoo>();
+        Long id;
+        for (int i = 1; i <= 3; i++) {
+            id = new Long(i);
+            tattooList.add(getTattooById(id));
+        }
+        return tattooList;
+    }
+
     public static Tattoo getTattooById(Long id){
         if(id == null){
             return null;

@@ -1,4 +1,23 @@
-@(user: models.users.User)
+@(user: models.users.User, tattoos: List[models.gallery.Tattoo], env: play.api.Environment)
 @main("Home",user){
+<h1>Welcome to Tattoo Saloon</h1>
 
+
+
+<p>At Tattoo Saloon you can view the galleries of our artists, book and manage your appointments and even pay off your appointments</p>
+
+<div class="row">
+    
+            
+        @for(t<-tattoos) { 
+                @if(env.resource("public/images/tattooImages/" + t.getName + "display.jpg").isDefined) {
+                    <div class="col-lg-4 col-md-5 col-xs-7 thumb">
+                            <a href="/assets/images/tattooImages/@(t.getName + ".jpg")" class="fancybox" rel="ligthbox">
+                                <img  src="/assets/images/tattooImages/@(t.getName + "display.jpg")" class="zoom img-fluid "  alt="">
+                            </a>
+    </div>
+}
+}
+    </div>
+    
 }

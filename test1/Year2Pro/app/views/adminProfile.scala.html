@@ -1,4 +1,4 @@
-@(customers: List[models.users.Customer], artists: List[models.users.Artist], appointments: List[models.users.Appointment], user: models.users.User)
+@(customers: List[models.users.Customer], artists: List[models.users.Artist], appointments: List[models.users.Appointment], user: models.users.Admin)
 @main("User", user){
     <div class="row">
         <div class="col-sm-3">
@@ -124,7 +124,7 @@
                 @for(a<-appointments){
                     <tr>
                     <td>@a.getCustomer().getEmail</td>
-                    <td>@a.getDate</td>
+                    <td>@a.getDateString</td>
                     <td>@a.getArtist().getName</td>
                     
                         
@@ -139,6 +139,11 @@
                 
                 </tbody>
             </table>
+            <p>
+                <a href="@user.writeReport()">
+                    <button class="btn btn-primary">Write a report</button>
+                </a>
+            </p>
         </div>
             
         </div>
