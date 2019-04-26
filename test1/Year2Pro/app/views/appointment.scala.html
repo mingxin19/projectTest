@@ -40,7 +40,7 @@
             @inputDate(appForm("date"), args = 'size -> 10, '_label -> "Date (You Preferred)", 'class -> "form-control")
              
             @select(
-                appForm("time.getType"),
+                appForm("time"),
                     options(users.Time.options),
                     '_label -> "Time", '_default -> "-- Choose a Time  --"
                 )

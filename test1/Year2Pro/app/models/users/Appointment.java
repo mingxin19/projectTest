@@ -29,7 +29,7 @@ public class Appointment extends Model{
     private Date date;
 
     @Constraints.Required
-    private Time time;
+    private String time;
     
     @Constraints.Required
     private String description;
@@ -47,7 +47,7 @@ public class Appointment extends Model{
 
     }
 
-    public Appointment(Date date, Time time, Customer customer, Artist artist, String desc, String size, String place, String colour){
+    public Appointment(Date date, String time, Customer customer, Artist artist, String desc, String size, String place, String colour){
         this.date = date;
         this.time = time;
         this.customer = customer;
@@ -57,7 +57,7 @@ public class Appointment extends Model{
         this.placement = place;
         this.colour = colour;
     }
-    public Appointment(Date date, Time time, Artist artist, String desc, String size, String place, String colour){
+    public Appointment(Date date, String time, Artist artist, String desc, String size, String place, String colour){
         this.date = date;
         this.time = time;
         this.artist = artist;
@@ -86,10 +86,10 @@ public class Appointment extends Model{
     }
     
 
-    public Time getTime(){
+    public String getTime(){
         return time;
     }
-    public void setTime(Time time){
+    public void setTime(String time){
         this.time = time;
     }
 
