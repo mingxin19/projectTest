@@ -1,0 +1,12 @@
+Report 2019/04/23 20:54:45 by Alice Admin 
+
+List of Customers
+No. of registered Customers: 0
+No. of unregistered Customers: 0
+
+List of Artists
+andrew@artist.com  Andrew 
+Artist Andrew has 0 appointment(s)
+
+List of Appointments
+No. of appointments: 0

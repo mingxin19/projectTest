@@ -1,0 +1,16 @@
+Report 2019/04/27 20:26:54 by Alice Admin 
+
+List of Customers
+andrewteeters9@gmail.com  Andrew Teeters  null 
+amy1rose@gmail.com  Amy Rose  null 
+No. of registered Customers: 2
+No. of unregistered Customers: 0
+
+List of Artists
+andrew@artist.com  Andrew 
+Artist Andrew has 2 appointment(s)
+
+List of Appointments
+1  andrewteeters9@gmail.com  Andrew  30 April 2019  12:00 - 14:00  clock with thorns  to fit the upper forearm  black and white 
+2  amy1rose@gmail.com  Andrew  29 April 2019  8:00 - 10:00  a  a  a 
+No. of appointments: 2

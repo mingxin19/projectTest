@@ -29,6 +29,7 @@ public class HomeController extends Controller {
 
     public Result index() {
         List<Tattoo> tattooList = Tattoo.findForHome();
+        
         return ok(index.render(User.getUserById(session().get("email")), tattooList, e));
     }
 
@@ -50,11 +51,13 @@ public class HomeController extends Controller {
 
     public Result customerProfile(){
         
-        List<Appointment> appList = null;
-        
-        appList= Appointment.findAll();
+        List<Appointment> appList = new ArrayList<>();
+        Customer cust = Customer.getCustomerById(session().get("email"));
+        if(cust.getAppointment() != null){
+            appList.add(cust.getAppointment());
+        }
 
-        return ok(customerProfile.render(appList, User.getUserById(session().get("email"))));
+        return ok(customerProfile.render(appList, User.getUserById(session().get("email")),e));
     }
 
     public Result artistProfile(){
@@ -63,9 +66,10 @@ public class HomeController extends Controller {
         List<Appointment> appList = null;
         
         artList = Artist.findAll();
-        appList= Appointment.findAll();
+        Artist art = Artist.getArtistById(session().get("email"));
+        appList= art.getAppointments();
 
-        return ok(artistProfile.render(artList, appList, User.getUserById(session().get("email"))));
+        return ok(artistProfile.render(artList, appList, User.getUserById(session().get("email")),e));
     }
 
     public Result adminProfile(){
@@ -76,7 +80,7 @@ public class HomeController extends Controller {
         artList = Artist.findAll();
         appList= Appointment.findAll();
 
-        return ok(adminProfile.render(custList, artList, appList, (Admin) User.getUserById(session().get("email"))));
+        return ok(adminProfile.render(custList, artList, appList, (Admin) User.getUserById(session().get("email")),e));
     }
 
 /*    @Security.Authenticated(Secured.class)

@@ -1,8 +1,13 @@
-@(artists: List[models.users.Artist], appointments: List[models.users.Appointment], user: models.users.User)
+@(artists: List[models.users.Artist], appointments: List[models.users.Appointment], user: models.users.User, env: play.api.Environment)
 @main("User", user){
     <div class="row">
         <div class="col-sm-3">
-		
+                @if(env.resource("public/images/profileImages/" + user.getEmail + "profile.jpg").isDefined) {
+                    <td><img src="/assets/images/profileImages/@(user.getEmail + "profile.jpg")"/></td>
+                    
+                } else {       
+                    <td><img src="/assets/images/noImageProfile.jpg"/></td>
+                }
         </div>
         
         <div class="col-sm-9">
@@ -20,25 +25,43 @@
                 <table class="table table-bordered table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th>Email</th>
-                        <th>Date</th>
-                        <th>Artist</th>
+                            
+
+                            <th>Tattoo</th>
+                            <th>Email</th>
+                            <th>Artist</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Description</th>
+                            <th>Size</th>
+                            <th>Placement</th>
+                            <th>Colour</th>
+                            <th>Has Paid</th>
+                            
                     </tr>
                     </thead>
                     <tbody>
                     @for(a<-appointments){
                         <tr>
-                        <td>@a.getCustomer().getEmail</td>
-                        <td>@a.getDate</td>
-                        <td>@a.getArtist().getName</td>
+                                @if(env.resource("public/images/productImages/" + a.getId + "display.jpg").isDefined) {
+                                    <td><img src="/assets/images/appImages/@(a.getId + "display.jpg")"/></td>
+                                    
+                                } else {       
+                                    <td><img src="/assets/images/noImage.jpg"/></td>
+                                }
+                                    <td>@a.getCustomer().getEmail</td>
+                                    <td>@a.getArtist().getName</td>
+                                    <td>@a.getDateString</td>
+                                    <td>@a.getTime</td>
+                                    <td>@a.getDescription</td>
+                                    <td>@a.getSize</td>
+                                    <td>@a.getPlacement</td>
+                                    <td>@a.getColour</td>
+                                    <td>@a.getPaid</td>
                         
-                            
+            
                         
-                            <td>
-                                <a href="@routes.AppointmentController.deleteAppointment(a.getId)" class="button-xs btn-danger" onclick="return confirmDel();">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
-                            </td>
+                         
                         }
                         </tr>
                     

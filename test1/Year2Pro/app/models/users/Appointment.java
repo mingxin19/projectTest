@@ -43,11 +43,14 @@ public class Appointment extends Model{
     @Constraints.Required
     private String colour;
 
+    
+    private Boolean paid;
+
     public Appointment(){
 
     }
 
-    public Appointment(Date date, String time, Customer customer, Artist artist, String desc, String size, String place, String colour){
+    public Appointment(Date date, String time, Customer customer, Artist artist, String desc, String size, String place, String colour, Boolean paid){
         this.date = date;
         this.time = time;
         this.customer = customer;
@@ -56,8 +59,9 @@ public class Appointment extends Model{
         this.size = size;
         this.placement = place;
         this.colour = colour;
+        this.paid = paid;
     }
-    public Appointment(Date date, String time, Artist artist, String desc, String size, String place, String colour){
+    public Appointment(Date date, String time, Artist artist, String desc, String size, String place, String colour, Boolean paid){
         this.date = date;
         this.time = time;
         this.artist = artist;
@@ -65,6 +69,7 @@ public class Appointment extends Model{
         this.size = size;
         this.placement = place;
         this.colour = colour;
+        this.paid = paid;
     } 
  
     public int getId(){
@@ -132,6 +137,21 @@ public class Appointment extends Model{
     }
     public void setColour(String colour){
         this.colour = colour;
+    }
+    public Boolean getPaid(){
+        return paid;
+    }
+
+    public String getPaidString(){
+        if(paid == true){
+            return "true";
+        } else{
+            return "false";
+        }
+    }
+
+    public void setPaid(Boolean paid){
+        this.paid = paid;
     }
 
     public static Finder<Long, Appointment> find = new Finder<Long,Appointment>(Appointment.class);

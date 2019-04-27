@@ -123,13 +123,13 @@ public class GalleryController extends Controller{
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                // 3) Actually save the file.
+                // 3) Actually save the file. 1andrew@artist.com.jpg
                 File newFile = new File("public/images/tattooImages/", id + artEmail + "." + extension);
                 if (file.renameTo(newFile)) {
                     try {
                         BufferedImage img = ImageIO.read(newFile); 
                         BufferedImage scaledImg = Scalr.resize(img, 300);
-                        
+                        //1andrew@artist.comdisplay.jpg
                         if (ImageIO.write(scaledImg, extension, new File("public/images/tattooImages/", id + artEmail + "display.jpg"))) {
                             return "/ file uploaded and Profile created.";
                         } else {
@@ -141,7 +141,7 @@ public class GalleryController extends Controller{
                 } else {
                     return "/ file upload failed.";
                 }
-    
+     
             }
         }
         return "/ no image file.";

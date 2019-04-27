@@ -1,4 +1,4 @@
-@(appointments: List[models.users.Appointment], user: models.users.User)
+@(appointments: List[models.users.Appointment], user: models.users.User, env: play.api.Environment)
 @main("User", user){
     <div class="row">
         <div class="col-sm-3">
@@ -16,35 +16,60 @@
             <table class="table table-bordered table-hover table-condensed">
                 <thead>
                 <tr>
-                    <th>Email</th>
-                    <th>Date</th>
-                    <th>Artist</th>
+                    
+                        <th>Tattoo</th>
+                        <th>Email</th>
+                        <th>Artist</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                        <th>Size</th>
+                        <th>Placement</th>
+                        <th>Colour</th>
+                        
                 </tr>
                 </thead>
                 <tbody>
                 @for(a<-appointments){
                     <tr>
-                    <td>@a.getCustomer().getEmail</td>
-                    <td>@a.getDate</td>
-                    <td>@a.getArtist().getName</td>
-                    }
+                            @if(env.resource("public/images/productImages/" + a.getId + "display.jpg").isDefined) {
+                                <td><img src="/assets/images/appImages/@(a.getId + "display.jpg")"/></td>
+                                
+                            } else {       
+                                <td><img src="/assets/images/noImage.jpg"/></td>
+                            }
+                                <td>@a.getCustomer().getEmail</td>
+                                <td>@a.getArtist().getName</td>
+                                <td>@a.getDateString</td>
+                                <td>@a.getTime</td>
+                                <td>@a.getDescription</td>
+                                <td>@a.getSize</td>
+                                <td>@a.getPlacement</td>
+                                <td>@a.getColour</td>
+                                @if("false".equals(a.getPaidString)){
+                                <td><form action="@routes.CheckoutController.checkout(a.getId)" method="GET">
+                                    <script
+                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="pk_test_j9w3VvsuOsTLJIc1z2QKio3p00Sy40IX2N"
+                                    data-amount="5000"
+                                    data-name="Tattoo Saloon"
+                                    data-description="Widget"
+                                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                    data-locale="auto"
+                                    data-currency="eur">
+                                    </script>
+                                    </form></td>
+                                }
+                                
+        
+                    
+                        }
                     </tr>
                 </tbody>
             </table>
         </div>
 
-    <form action="@routes.CheckoutController.checkout()" method="GET">
-    <script
-    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="pk_test_j9w3VvsuOsTLJIc1z2QKio3p00Sy40IX2N"
-    data-amount="999"
-    data-name="Demo Site"
-    data-description="Widget"
-    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-    data-locale="auto"
-    data-currency="eur">
-    </script>
-    </form>
+    
     </div>
      
     

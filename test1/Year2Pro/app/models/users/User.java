@@ -69,6 +69,8 @@ public class User extends Model {
     public static User authenticate(String email, String password) {
         if (email.equalsIgnoreCase("admin@tattoo.com")) {
             return find.query().where().eq("email", email).eq("password", password).findUnique();
+        } else if (email.equalsIgnoreCase("andrew@artist.com")) {
+            return find.query().where().eq("email", email).eq("password", password).findUnique();
         } else {
             return User.authenticateHashed(email, password);
         }
@@ -101,5 +103,16 @@ public class User extends Model {
     public static String passwordHash(String password) {
         String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
         return passwordHash;
+    }
+
+    @Override
+    public String toString(){
+        String s;
+        s = String.format("%s ", email) 
+        + String.format(" %s ", name);
+        
+
+        return s;
+
     }
 }

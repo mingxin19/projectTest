@@ -13,6 +13,7 @@ create table appointment (
   size                          varchar(255),
   placement                     varchar(255),
   colour                        varchar(255),
+  paid                          boolean,
   constraint uq_appointment_customer_email unique (customer_email),
   constraint pk_appointment primary key (apm_number)
 );

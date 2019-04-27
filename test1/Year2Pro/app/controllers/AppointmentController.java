@@ -40,7 +40,17 @@ public class AppointmentController extends Controller{
 
     public Result custAppSubmit(){
         Form<Appointment> appForm = formFactory.form(Appointment.class).bindFromRequest();
-
+        Appointment tempApp = appForm.get();
+        Boolean appBoolean = false;
+        List<Appointment> appList = tempApp.getArtist().getAppointments();
+        for(Appointment apps : appList){
+               if(tempApp.getDate() == apps.getDate()){
+                    if(tempApp.getTime().equalsIgnoreCase(apps.getTime())){
+                        appBoolean = true;
+                    }
+                }
+            
+        }
         if(appForm.hasErrors()){
             flash("error", "Bad Request");
             return badRequest(custApp.render(appForm,User.getUserById(session().get("email"))));
@@ -50,19 +60,24 @@ public class AppointmentController extends Controller{
                 flash("error", "Appointment for your email address is booked already.");
                 
             }else{
+                if(appBoolean == true){
+                    flash("error", "This Date and Time for this artist is booked please choose another");
+                }else{
                 Appointment newApp = appForm.get();
                 
                 newApp.setCustomer(c);
+                newApp.setPaid(false);
                 c.setAppointment(newApp);
                 newApp.save();
                 c.update();
             
                 MultipartFormData<File> data = request().body().asMultipartFormData();
                 FilePart<File> image = data.getFile("upload");
-                String saveImageMessage = saveFile(newApp.getId(), image);
+                String saveImageMessage = saveFile(newApp.getId(), image, newApp.getCustomer().getEmail());
 
                 flash("success", "Appointment for " + newApp.getCustomer().getName() + " is booked.");
             }
+        }
             return redirect(controllers.routes.AppointmentController.custApp());
     
             
@@ -83,32 +98,49 @@ public class AppointmentController extends Controller{
     public Result appointmentSubmit(){
         Form<Appointment> appForm = formFactory.form(Appointment.class).bindFromRequest();
         Form<Customer> custForm = formFactory.form(Customer.class).bindFromRequest();
+        Appointment tempApp = appForm.get();
+        Boolean appBoolean = false;
+        List<Appointment> appList = tempApp.getArtist().getAppointments();
+        for(Appointment apps : appList){
+               if(tempApp.getDate() == apps.getDate()){
+                    if(tempApp.getTime().equalsIgnoreCase(apps.getTime())){
+                        appBoolean = true;
+                    }
+                }
+            
+        }
         if(appForm.hasErrors()||custForm.hasErrors()){
+            flash("error", "Bad Request");
             return badRequest(appointment.render(custForm,appForm,User.getUserById(session().get("email"))));
         }else{
             Customer tempCust = custForm.get();
             if(User.getUserById(tempCust.getEmail()) != (null)){
-                flash("error", "This email are registered, login to book appointment.");
+                flash("error", "This email is registered, login to book appointment.");
             }else{
+                if(appBoolean == true){
+                    flash("error", "This Date and Time for this artist is booked please choose another");
+                }else{
+
                 Appointment newApp = appForm.get();
                 tempCust.setPassword(tempCust.getPassword());
                 newApp.setCustomer(tempCust);
+                newApp.setPaid(false);
                 tempCust.save();
                 newApp.save();
 
                 MultipartFormData<File> data = request().body().asMultipartFormData();
                 FilePart<File> image = data.getFile("upload");
-                String saveImageMessage = saveFile(newApp.getId(), image);
+                String saveImageMessage = saveFile(newApp.getId(), image, newApp.getCustomer().getEmail());
             
                 flash("success", "Appointment for " + newApp.getCustomer().getName() + " is booked. " + saveImageMessage + " uploaded.");
             }
+        }
             return redirect(controllers.routes.AppointmentController.appointment());
     
             
             
         }
     }
-
 
 
 
@@ -129,29 +161,29 @@ public class AppointmentController extends Controller{
 
 
 
-    // @Security.Authenticated(Secured.class)
-    // public Result updateAppointment(int id){
-    //     Appointment app;
-    //     Customer cust;
-    //     Form<Appointment> appForm;
-    //     Form<Customer> custForm;
-    //     try{
-    //         app = Appointment.getAppointmentById(id);
-    //         cust = app.getCustomer();
-    //         app.update();
-    //         cust.update();
-    //         appForm = formFactory.form(Appointment.class).fill(app);
-    //         custForm = formFactory.form(Customer.class).fill(cust);
-    //     }catch(Exception e){
-    //         return badRequest("error");
-    //     }
-    //     return ok(appointment.render(custForm,appForm,User.getUserById(session().get("email"))));
-    // }
+    
+    public Result updateAppointment(int id){
+        Appointment app;
+        Customer cust;
+        Form<Appointment> appForm;
+        Form<Customer> custForm;
+            try{
+             app = Appointment.getAppointmentById(id);
+             cust = app.getCustomer();
+             app.update();
+             cust.update();
+             appForm = formFactory.form(Appointment.class).fill(app);
+             custForm = formFactory.form(Customer.class).fill(cust);
+         }catch(Exception e){
+             return badRequest("error");
+         }
+         return redirect(controllers.routes.HomeController.customerProfile());
+     }
 
 
 
 
-    public String saveFile(int id, FilePart<File> uploaded) {
+    public String saveFile(int id, FilePart<File> uploaded, String custEmail) {
         
         if (uploaded != null) {
             
@@ -168,18 +200,18 @@ public class AppointmentController extends Controller{
                 
                 File file = uploaded.getFile();
                 
-                File dir = new File("public/images/tattooImages");
+                File dir = new File("public/images/appImages");
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
                 // 3) Actually save the file.
-                File newFile = new File("public/images/tattooImages/", id + "." + extension);
+                File newFile = new File("public/images/appImages/", id + "." + extension);
                 if (file.renameTo(newFile)) {
                     try {
                         BufferedImage img = ImageIO.read(newFile); 
-                        BufferedImage scaledImg = Scalr.resize(img, 300);
+                        BufferedImage scaledImg = Scalr.resize(img, 50);
                         
-                        if (ImageIO.write(scaledImg, extension, new File("public/images/tattooImages/", id + "display.jpg"))) {
+                        if (ImageIO.write(scaledImg, extension, new File("public/images/appImages/", id + custEmail + "display.jpg"))) {
                             return "/ file uploaded and Profile created.";
                         } else {
                             return "/ file uploaded but profile creation failed.";

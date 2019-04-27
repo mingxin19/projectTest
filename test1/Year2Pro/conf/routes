@@ -79,4 +79,4 @@ GET     /deleteAppointment/:id             controllers.AppointmentController.del
 
 # GET     /updateAppointment/:id             controllers.AppointmentController.updateAppointment(id: Int)
 
-GET     /checkout                   controllers.CheckoutController.checkout
+GET     /checkout                   controllers.CheckoutController.checkout(id: Int)

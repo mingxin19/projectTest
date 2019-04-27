@@ -1,0 +1,15 @@
+Report 2019/04/25 18:39:45 by Alice Admin 
+
+List of Customers
+emily1234@gmail.com  Emily Rose  null 
+b@b.com  bob  null 
+No. of registered Customers: 2
+No. of unregistered Customers: 0
+
+List of Artists
+andrew@artist.com  Andrew 
+Artist Andrew has 1 appointment(s)
+
+List of Appointments
+emily1234@gmail.com  Andrew  30 April 2019  12:00pm  clock with thorns   to fit the upper forearm  black and white 
+No. of appointments: 1

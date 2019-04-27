@@ -6,6 +6,7 @@ import javax.persistence.*;
 import io.ebean.*;
 import play.data.format.*;
 import play.data.validation.*;
+import java.util.Collections;
 
 @Table(name = "tattoo")
 @Entity
@@ -79,11 +80,20 @@ public class Tattoo extends Model {
 
     public static final List<Tattoo> findForHome(){
         List<Tattoo> tattooList = new ArrayList<Tattoo>();
-        Long id;
-        for (int i = 1; i <= 3; i++) {
-            id = new Long(i);
-            tattooList.add(getTattooById(id));
+        List<Tattoo> tattoos = Tattoo.findAll();
+        List<Long> ids = new ArrayList<Long>();
+        
+        for (Tattoo tattoo : tattoos) {
+            Long id = tattoo.getId();
+            ids.add(id);
         }
+        Collections.shuffle(ids);
+        for (int i = 0; i < 3; i++) {
+            if(getTattooById(ids.get(i)) != null){
+            tattooList.add(getTattooById(ids.get(i)));
+        }
+        }
+     
         return tattooList;
     }
 

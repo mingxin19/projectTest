@@ -18,7 +18,7 @@
 
     
     
- 
+   
     @form(action=routes.AppointmentController.custAppSubmit(), 'class -> "form-horizontal", 'role -> "form",
     'mehtod -> "POST", 'enctype -> "multipart/form-data") {
         @* CSRF attack prevention *@
@@ -28,7 +28,13 @@
              
             @inputDate(appForm("date"), args = 'size -> 10, '_label -> "Date (You Preferred)", 'class -> "form-control")
              
-            @inputText(appForm("time"), '_label -> "Time (You Preferred)", 'class -> "form-control")
+            @select(
+                appForm("time"),
+                    options(users.Timeslot.options),
+                    '_label -> "Time", '_default -> "-- Choose a Time  --", 
+                    '_showConstraints -> false, 'class -> "form-control"
+            )
+
             @select(
                 appForm("artist.email"),
                     options(users.Artist.options),
@@ -39,6 +45,7 @@
             @inputText(appForm("size"), '_label -> "Size of the Tattoo", 'class -> "form-control")
             @inputText(appForm("placement"), '_label -> "Place you want your Tattoo on", 'class -> "form-control")
             @inputText(appForm("colour"), '_label -> "Colour of the Tattoo", 'class -> "form-control")
+            
             
             <label>Image Upload</label>
             <input class="btn-sm btn-default" type = "file" name ="upload">

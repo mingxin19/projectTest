@@ -4,20 +4,35 @@
 
 
 
-<p>At Tattoo Saloon you can view the galleries of our artists, book and manage your appointments and even pay off your appointments</p>
+<p>At Tattoo Saloon you can view the galleries of our artists, <br>book and manage your appointments and place a deposit on you appointment.</p>
 
 <div class="row">
     
-            
-        @for(t<-tattoos) { 
-                @if(env.resource("public/images/tattooImages/" + t.getName + "display.jpg").isDefined) {
-                    <div class="col-lg-4 col-md-5 col-xs-7 thumb">
-                            <a href="/assets/images/tattooImages/@(t.getName + ".jpg")" class="fancybox" rel="ligthbox">
-                                <img  src="/assets/images/tattooImages/@(t.getName + "display.jpg")" class="zoom img-fluid "  alt="">
-                            </a>
-    </div>
-}
-}
-    </div>
+    @for(t<-tattoos) { 
+        @if(env.resource("public/images/tattooImages/" + t.getId + t.getArtist.getEmail + "display.jpg").isDefined) {
+            <div class="col-lg-4 col-md-5 col-xs-7 thumb">
+                    <a href="/assets/images/tattooImages/@(t.getId + t.getArtist.getEmail + ".jpg")" class="fancybox" rel="ligthbox">
+                        <img  src="/assets/images/tattooImages/@(t.getId + t.getArtist.getEmail + "display.jpg")" class="zoom img-fluid "  alt="">
+                        
+                    </a>
+                    <h5>@t.getName by @t.getArtist().getName</h5>
+                        
+                
+                    
+                
+            } else {
+                <div class="col-lg-4 col-md-5 col-xs-7 thumb">
+                    <a href="/assets/images/noImage.jpg" class="fancybox" rel="ligthbox">
+                        <img  src="/assets/images/noImage.jpg" class="zoom img-fluid "  alt="">
+                        
+                    </a>
+                    <h5>@t.getName by @t.getArtist().getName</h5>
+                
+               
     
+            }
+
+        </div>
+    }
+    </div>
 }

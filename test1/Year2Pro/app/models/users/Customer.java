@@ -55,5 +55,13 @@ public class Customer extends User{
         }
     }
 
-    
+    @Override
+    public String toString(){
+        String s;
+        s = super.toString() + String.format(" %s ", phoneNumber);
+        
+
+        return s;
+
+    }
 }
